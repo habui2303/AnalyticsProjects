@@ -1,0 +1,120 @@
+---
+title: "21740729_Assignment 3 Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r 1}
+if (!requireNamespace("readr", quietly = TRUE)) {install.packages("readr")}
+if (!requireNamespace("readxl", quietly = TRUE)) {install.packages("readxl")}
+library(readr)
+library(readxl)
+library(dplyr)
+df1 <- suppressMessages(read_csv("Region.csv")) %>% select(-1)
+df2 <- read_excel("Wine.xlsx")
+df3 <- read.table("WineRating.txt", skip = 3, header= TRUE)
+View (df1)
+View (df2)
+View (df3)
+
+df2$Country <- df1$Country[match(df2$Region, df1$Region)]
+df2$Rating <- df3$Rating[match(df2$ProductID, df3$ProductID)]
+df2$NumberOfRatings <- df3$NumberOfRatings[match(df2$ProductID, df3$ProductID)]
+print(df2)
+```
+
+
+```{r 2.a.}
+summary(df2)
+cat("With the summary functions, we can obtain an overview of all columns in the Wine dataframe. 
+According to the summary, the 'Year' and 'Price' columns are presented as character data types, but it might be more suitable to modify them as numeric data types. Additionally, there are some rows in the 'Price' column with varying units of currency. Moreover, the 'Year' column contains many values with a special sign 'N.V.' which may require handling.")
+```
+
+```{r 2.b}
+library(stringr)
+cents_rows <- grep("\\d+\\s*cents", df2$Price)
+df2$Price[cents_rows] <- paste0("$", as.numeric(str_extract(df2$Price[cents_rows], "\\d+")) / 100)
+
+library(dplyr)
+df2$Year <- suppressMessages(as.numeric(df2$Year))
+df2$Price <- as.numeric(gsub("[^0-9.]", "", df2$Price))
+summary (df2)
+
+cat("By observing the Wine dataset, it becomes evident that the majority of the NA values in the 'Year' column are associated with Sparkling Wine. Sparkling wines, often classified as 'Non-Vintage,' are crafted from a blend of grapes harvested in different years. Consequently, it is common for these wines not to carry a specific vintage year, explaining the absence of year values in this category.","\n") 
+cat("Given the non-essential nature of the year, I choose not to remove rows with NA values. Removing them might impact statistics like Average Wine Price because the number of N/A values is more than 700.","\n")
+```
+```{r 3}
+if (!requireNamespace("ggplot2", quietly = TRUE)) {install.packages("ggplot2")}
+library(ggplot2)
+ggplot(df2, aes(x = Price)) +
+  geom_histogram(fill = "lightpink", color = "black") +
+  labs(title = "Distribution of Wine Prices", x = "Price", y = "Frequency")
+ggplot(df2, aes(y = Price)) +
+  geom_boxplot(fill = "skyblue", color = "black") +
+  labs(title = "Boxplot of Wine Prices", y = "Price")
+
+#Because there are many unusually high-priced wines in the data, I've made a modified boxplot. It focuses on showing the typical wine prices (the central tendency) and the spread of prices (interquartile range) while still displaying the extreme outlier values. This adjusted chart makes it easier to see the normal price range, even with the presence of very expensive wines.
+ggplot(df2, aes(x = "", y = Price)) +
+  geom_boxplot(fill = "skyblue", color = "black") +
+  labs(title = "Zoomed-in Boxplot of Wine Prices (0 to 150)", y = "Price") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, 150))
+
+cat("Histogram Insights: 
+- The histogram of wine prices illustrates a right-skewed distribution with a heavy-tailed pattern. This pattern reveals that the dataset contains a wide range of wine prices, from budget-friendly to premium selections.","\n")
+
+cat("Boxplot Insights: 
+- The box plot indicates the diversity of outliers in this data set. Most of wine prices are concentrated within the interquartile range. However, the presence of multiple outliers on the higher side reveals significant fluctuations in wine prices of this dataset from low prices to extremely high prices. This suggests an opportunity to offer premium wine choices to customers looking for a luxurious option.","\n")
+
+cat("Overall Conclusion: 
+- These visualizations collectively depict the dataset's wine price diversity, offer a broad spectrum of wine prices, catering to both consumers on a limited budget and those looking for premium options.","\n")
+```                                                                                         
+
+```{r 4.a.}
+cat ("To choose the best wineries, based on descriptive statistics table in task 2, my justification for these criteria is as follows:","\n")
+cat ("- Average Rating >= 4.1 (value of Q3 for Rating), with this criteria, we can consider the wineries with rating in the upper 25% of the data. This implies that we're focusing on wineries with very good to excellent ratings.","\n")
+cat("- Average Number of Ratings > 336 (value of Q3 for Number of Ratings): Similar to Average Ratings, my target is wineries that have received a significant amount of ratings from customers. With this criteria, we can select well-known wineries among the dataset based on consumer feedback.","\n")
+cat("This approach ensures that the company collaborates with wineries that not only receive high ratings but also have a large consumer base, helping them stand out in the wine business.")
+```
+
+
+```{r 4.b.}
+if (!requireNamespace("gt", quietly = TRUE)) {install.packages("gt")}
+library(dplyr)
+library(gt)
+top_wineries <- df2 %>% group_by(Winery) %>% summarize( Avg_Rating = mean(Rating, na.rm = TRUE), TotalNumberOfRatings = sum(NumberOfRatings, na.rm = TRUE) ) %>% arrange(desc(Avg_Rating), desc(TotalNumberOfRatings)) %>% filter(Avg_Rating >= 4.1, TotalNumberOfRatings > 336) %>% mutate(Ranking = row_number())  
+colnames(top_wineries) <- c("Winery Name", "Average Customer Rating", "Total Number of Ratings", "Ranking")
+top_wineries_table <- top_wineries %>% gt() %>% tab_header( title = "Top Wineries List",
+    subtitle = "With Average Rating >= 4.1 and Total Number of Ratings > 336" )
+top_wineries_table
+top_wineries_df <- as.data.frame(top_wineries)
+View(top_wineries_df)
+```
+
+```{r 5}
+cat("Insights:
+The dataset contains 13,090 wine products with diverse wine types, such as production years spanning from 1961 to 2020 and wine prices ranging from $3.55 to $3410.79. The average customer rating is approximately 3.87, but the number of ratings varies significantly, with some wines having as few as 25 and others as many as 20,293 ratings.","\n")
+cat("By these insights, the dataset can give us a wide variety of wine pricing, including both low-cost and high-end options. This variety allows us to reach a broader customer base by offering wines at various pricing points.Additionally, this selection can serve to satisfy both customers with limited budgets and those looking for high-end solutions.","\n")
+cat("Recommendations: 
+According to my previous criteria for selecting best wineries include not only high average ratings but also a substantial number of ratings. We can ensure that the chosen list of wineries not only produce quality wines but also have a sizable and engaged customer base. Based on the top wineries list, the following is my recomendation:","\n")
+cat("- When expanding their market, managers should carefully consider collaborations with wineries. Focus on wineries with a track record of producing highly rated wines (Average Rating >= 4.1) to ensure the quality of products. Additionally, target wineries with a significant number of ratings (Average Number of Ratings > 336) to tap into their established consumer base.","\n")
+cat("- To attract a broader range of customers, managers should consider collaborating with wineries that offer a variety of wine types. This diversification caters to different consumer preferences and increases the chances of appealing to a wider audience.","\n")
+cat("- Managers can implement a competitive pricing strategy by offering the diversity in wine prices. This involves offering both affordable and premium wines to meet the needs of various customer segments.","\n")
+cat("- Managers should leverage the reputation and high ratings of selected wineries for marketing strategy. By highlighting the wineries' achievements and the quality of their wines, the company can attract potential customers.","\n")
+cat("- Engaging with customers to gather feedback and reviews is also important for further strengthening the wineries' reputation and market presence. With the customers' feecback, we can improve product quality and based on those feedbacks to build a loyal customer database.","\n") 
+cat("By following these insights and recommendations, manager can strategically expand the market, building a strong presence by collaborating with reputable wineries and offering a diverse range of wines at competitive prices. This approach will likely lead to increased market share and customer satisfaction.","\n")
+```
+
