@@ -69,5 +69,7 @@ Contact
 If you have any questions or suggestions, feel free to reach out:
 
 Email: buihaiha2303@gmail.com
-LinkedIn: www.linkedin.com/in/hai-ha-bui-b84483199
+
+or LinkedIn: www.linkedin.com/in/hai-ha-bui-b84483199
+
 Thank you for visiting the repository!
