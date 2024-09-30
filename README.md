@@ -8,7 +8,7 @@ Welcome to the Analytics Projects Repository! This collection showcases a variet
   - [Python Projects](#python-projects)
   - [R Projects](#r-projects)
   - [SQL Projects](#sql-projects)
-  - [Tableau Dashboard](#tableau-dashboard)
+  - [Tableau Dashboard Report](#tableau-dashboard)
 - [How to Use](#how-to-use)
 - [Installation and Requirements](#installation-and-requirements)
 - [Contributing](#contributing)
@@ -36,7 +36,7 @@ R is used in these projects for statistical analysis and data visualization, lev
 
 | Project File | Description |
 |--------------|-------------|
-| **Used Car Price Prediction.Rmd** | Predictive modeling using R to analyze used car price data and develop price prediction models based on vehicle features. |
+| **Used Car Price Prediction.Rmd** | Predictive modelling using R to analyze used car price data and develop price prediction models based on vehicle features. |
 | **Wine_dataset_analysis_by_R.Rmd** | Exploratory data analysis on wine data to identify factors affecting wine quality and visualize patterns using R. |
 
 ---
@@ -55,7 +55,7 @@ This project uses Tableau to build interactive dashboards for visual data explor
 
 | Project File | Description |
 |--------------|-------------|
-| **Bank Marketing Strategy by Tableau Results.pdf** | A Tableau dashboard visualizing the results of a bank marketing campaign, highlighting strategies for customer acquisition and retention based on the provided data. |
+| **Bank Marketing Strategy by Tableau Results.pdf** | A Tableau dashboard visualizing the results of a bank marketing campaign, highlighting strategies for customer acquisition and retention based on the insights of dataset. |
 
 ## How to Use
 
@@ -64,7 +64,6 @@ This project uses Tableau to build interactive dashboards for visual data explor
    ```bash
    git clone https://github.com/habui2303/AnalyticsProjects.git
    pip install -r requirements.txt
-pip install -r requirements.txt
 
 Contact
 If you have any questions or suggestions, feel free to reach out:
