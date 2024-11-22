@@ -1,7 +1,0 @@
-In this project, I will utilize Python to carry out a complete examination of a credit score dataset. The dataset contains 1,000 entries and 19 variables, each representing a distinct component of an individual's financial profile and credit behaviour, such as checking account status, credit history, and credit purpose.
-The investigation will begin by cleaning and preparing the data using Python libraries like Pandas and NumPy. This step involves resolving missing values, encoding categorical variables, and standardizing numerical features to prepare the dataset for subsequent modelling processes.
-
-In the next phase, I plan to develop a Decision Tree Classifier using Scikit-learn methods. I will evaluate the model's performance through cross-validation techniques, generating key metrics to assess its accuracy and robustness. Additionally, I will utilize Seaborn to create visualizations that highlight significant patterns and trends in the data, 
-thereby improving the interpretability and communication of the findings.
-
-Overall, this project aims to provide a comprehensive analysis of credit scoring using a Decision Tree Classifier, encompassing data preparation, model evaluation, and visualization.
