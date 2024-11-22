@@ -1,0 +1,2 @@
+This project involves analyzing a dataset to identify and address missing values (NAs) using statistical and non-ML methods. The process includes exploring the data, determining the extent of missingness, and applying appropriate strategies to handle NAs for both numerical and categorical features. 
+Comparisons between the original and clean datasets will be performed using statistical summaries, graphical analyses, and bivariate trends to evaluate the impact of the chosen strategies. R code and concise explanations will support the findings throughout.
