@@ -16,7 +16,7 @@ import pandas as pd
 import numpy as np
 
 #Load the dataset
-df = pd.read_csv('Assignment 1 Data.csv')
+df = pd.read_csv('Credit_dataset.csv')
 
 """**2.	Data Exploration**"""
 
