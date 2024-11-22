@@ -1,0 +1,222 @@
+---
+title: "R Mini Project"
+output: html_document
+date: "2024-09-07"
+---
+Student Name: Hai Ha Bui
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)  
+```
+
+Get your current working directory in R using **getwd ()** function
+
+```{r}
+dir=getwd()
+```
+
+Set your working  directory in R using **setwd ()** function
+
+
+```{r}
+setwd(dir)
+```
+
+```{r}
+#DO NOT CHANGE THE CODE BELOW!
+word_count <- function(s)
+  {
+    return(length(strsplit(str, "\\s+")[[1]]))
+  }
+```
+
+
+
+Part 1: Statistical information about the dataset
+```{r}
+#Load necessary libraries 
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+
+#Load selected dataset
+df_iris <- read.csv('dirty_iris.csv')
+
+#Statiscal information about dataset
+str(df_iris) #Display data structure
+summary(df_iris) #Display summary
+attributes(df_iris) #Display attributes of data
+
+#Identify actual number of NAs in the dataset
+any(is.na(df_iris)) #Check whether any NAs in the dataset
+# Count missing values for whole data
+sum(is.na(df_iris))
+#As a result, only the Petal.Length column contains 12 missing values, consistent with the output of the summary() function.
+
+#But when we have a look on actual dataset, there are few blank values in 'Species' column , which are likely filled with empty strings.
+sum(df_iris$Species == "NA" | df_iris$Species == "") 
+#As the results, 'Species' column contains 3 blank values. 
+
+cat("Plan forhandling missing value:\n",
+"Using the mean to fill NAs in 'Petal.Length' column - numerical column to ensure that the overall distribution and central tendency of the data are preserved without significantly skewing the results.\n",
+"Using previous value and next value to fill Blank value in 'Species' - categorical column to maintain consistency, because all instances of the same species are grouped together in the dataset.\n")
+```
+
+```{r}
+str<-"The result reveals 12 missing values and 3 blanks. Missing values in the numerical 'Petal.Length' column are filled with the mean to maintain data distribution and central tendency without bias. Since 'Species' are grouped by type, blanks in this categorical column are filled by surrounding values to ensure accurate representation."
+print(paste("Word Count: ",word_count(str)))
+```
+
+Part 2: Check & Handle missing value for numerical data
+```{r}
+cat("Use mean value to fill NAs in 'Petal.Length'.\n")
+
+#Load necessary library
+library(ggplot2)
+library(ggpubr)
+
+#Find the location of missing value
+ind_petal <- which(is.na(df_iris$Petal.Length))
+ind_petal
+
+#Calculate mean value in 'Petal.Length' column
+mean_petal <- mean(df_iris$Petal.Length[-ind_petal]) #Use the minus sign to exclude missing values; including them will return NA for the mean.
+mean_petal  
+
+#Replace missing values in 'Petal.Length' by mean value
+df_iris$Petal.Length[ind_petal] <- round(mean_petal, 1) #Round to 1 decimal place to match the other values
+df_iris$Petal.Length
+
+# check if we still have missing  values in 'Petal.Length' on cleaned dataset 
+any (is.na (df_iris$Petal.Length))
+sum(!complete.cases(df_iris$Petal.Length))
+
+
+#Statistical comparison
+original_iris <- read.csv('iris.csv')
+#Original Dataset Summary
+summary(original_iris$Petal.Length) 
+#Cleaned Dataset Summary
+summary(df_iris$Petal.Length) #for cleaned dataset
+
+# check if we have missing  values in 'Petal.Length' in original dataset
+any (is.na (original_iris$Petal.Length))
+sum(!complete.cases(original_iris$Petal.Length))
+
+#Graphical comparison by Histogram visualization for numerical data
+#Histogram to identify distribution
+plot_original <- ggplot(original_iris, aes(x = Petal.Length)) + geom_histogram(color = "#E69F00", fill = "#E69F00") + labs(title = "Petal.Length Distribution on Original Data", x = "Petal.Length", y = "Count") + theme(plot.title = element_text(size = 11.5)) 
+
+plot_cleaned <- ggplot(df_iris, aes(x = Petal.Length)) + geom_histogram(color = "#56B4E9", fill = "#56B4E9") +labs(title = "Petal.Length Distribution on Cleaned Data", x = "Petal.Length", y = "Count") + theme(plot.title = element_text(size = 11.5))
+
+# Combine 2 charts in the same visualization
+ggarrange(plot_original, plot_cleaned, ncol = 2, nrow = 1)
+
+```
+
+```{r}
+str<-"Cleaned dataset has a slightly higher mean and lower median, indicating small influence on distribution. Both datasets are right-skewed, with a peak at 1.4. However, because of handling missing values, cleaned data shows new peaks around 3.8 and 5 which weren't present in original data. Overall, both histograms remain consistent."  
+print(paste("Word Count: ",word_count(str)))   
+```
+
+Part 3: Check & Handle missing value for categorical data
+```{r}
+cat("Use previous value and next value to fill Blank Value in 'Species' column.\n")
+# Replace blank values in 'Species' column with NA
+df_iris$Species[df_iris$Species == ""] <- NA
+
+#Find the location of NA values in 'Species'
+na_ind <- which(is.na(df_iris$Species))
+na_ind
+
+#Replace NA values in index 14 and 92 with the previous value
+df_iris$Species[na_ind] <- df_iris$Species[na_ind - 1]
+
+#Fill the NA value at index 93 with the next value, as index 92 still contains an NA.
+df_iris$Species[93] <- df_iris$Species[93 + 1]
+head(df_iris,20)
+
+# Check if there are any other NA values in Species
+any(is.na(df_iris$Species))
+sum(!complete.cases(df_iris$Species))
+
+# Check if there are any blank values in Species
+any(df_iris$Species == "")
+
+#Statistical comparison
+summary(original_iris$Species) #for original dataset
+summary(df_iris$Species) #for cleaned dataset
+
+#Graphical comparison- Pie chart and Bar chart for categorical data
+#Bar chart 
+plot_original_barchart <- ggplot(original_iris, aes(x = Species)) + geom_bar(fill ="#E69F00") + labs(title = "Species Frequency in Original Data", x = "Species", y = "Count") 
+
+plot_cleaned_barchart <- ggplot(df_iris, aes(x = Species)) + geom_bar(fill = "#56B4E9") + labs(title = "Species Frequency in Cleaned Data", x = "Species", y = "Count") 
+
+#I tried using a bar chart, but since each species has the same count of 50, it's not an effective visualization.
+
+#Pie chart
+pie_chart_original <- ggplot(original_iris, aes(x = "", fill = Species)) + geom_bar(width = 1) + coord_polar(theta = "y") +scale_fill_brewer(palette="Dark2")+ labs(title = "Original Data") + theme_void()
+
+pie_chart_cleaned <- ggplot(df_iris, aes(x = "", fill = Species)) + geom_bar(width = 1) + coord_polar(theta = "y") +scale_fill_brewer(palette="Dark2")+ labs(title = "Cleaned Data") +theme_void()
+
+# Combine 4 charts in the same visualization
+ggarrange(plot_original_barchart, plot_cleaned_barchart, pie_chart_original, pie_chart_cleaned, ncol = 2, nrow = 2)
+
+```
+
+```{r}
+str<-"First, I filled 2 blanks in the Species column with previous value and one with the next value (since two blanks were next to each other). Because bar chart wasn’t effective due to equal counts (50 each), I used pie chart. As the results, cleaned data exactly matched original distribution."
+print(paste("Word Count: ",word_count(str)))
+```
+
+Part 4: Perform a bivariate analysis for the numerical features 
+```{r}
+#Analyze correlation between all numeric variables in cleaned dataset
+#Load the required library
+library(corrplot)
+#Select only the numeric columns
+dt <- df_iris[,1:4]
+
+#Visualize a basic scatter plot matrix
+plot(dt)
+cor(dt)
+
+#Visualize the correlation matrix with corrplot
+cr <- cor(dt)
+corrplot(cr, method = "color", addCoef.col = "black")    
+
+cat("Bivariate analysis can be used to analyse relationship between two variables of the data. On this part, I will choose to explore the correlation between 'Petal.Width' and 'Petal.Length'.\n")
+
+#Calculate the paired samples t-test for Petal.Width and Petal.Length variables
+#For Original data
+z_originaldat <- t.test(original_iris$Petal.Length, original_iris$Petal.Width, paired = TRUE, alternative = "two.sided")
+print (z_originaldat)
+#For Cleaned data
+z_modifieddat <- t.test(df_iris$Petal.Length, df_iris$Petal.Width, paired = TRUE, alternative = "two.sided")
+print (z_modifieddat)
+
+
+#Graphical Exploration: Scatter Plot 
+originaldat <- ggplot(data = original_iris, mapping = aes(x = Petal.Length,
+y = Petal.Width)) + geom_point(color='#E69F00', alpha = 0.9) +  labs(title = "Original Data", x = "Petal Length", y ="Petal Width")
+
+modifieddat <- ggplot(data = df_iris, mapping = aes(x = Petal.Length,
+y = Petal.Width)) + geom_point(color='#56B4E9', alpha = 0.9) +  labs(title = "Cleaned Data", x = "Petal Length", y ="Petal Width")
+
+#Show the trend line in scatter plot
+originaldat_trendline <- ggplot(data = original_iris, mapping = aes(x = Petal.Length,
+y = Petal.Width)) + geom_point(color='#E69F00', alpha = 0.9) +  labs( x = "Petal Length", y ="Petal Width")+ geom_line() + geom_smooth(method=lm,  linetype="dashed", color="darkred", fill="blue")
+
+modifieddat_trendline <- ggplot(data = df_iris, mapping = aes(x = Petal.Length,
+y = Petal.Width)) + geom_point(color='#56B4E9', alpha = 0.9) +  labs( x = "Petal Length", y ="Petal Width")+ geom_line() + geom_smooth(method=lm,  linetype="dashed", color="darkred", fill="blue")
+
+combined_plots <- ggarrange(originaldat, modifieddat, originaldat_trendline, modifieddat_trendline, ncol = 2, nrow = 2)
+annotate_figure(combined_plots, top = text_grob("Correlation between Petal.Length and Petal.Width",  color = "black",  face = "bold"))
+
+```
+```{r}
+str<-"I chose Petal.Length-Petal.Width because of their highest correlation (0.91), ideal for analyzing effects of imputation. After imputation, mean difference and confidence intervals showed minimal change, with no significant effect on dataset. From visualization, linear trend remained strong in both datasets, with more consistent data points in middle-range of cleaned data."
+print(paste("Word Count: ",word_count(str))) 
+```
+
