@@ -32,7 +32,7 @@ Python is used for data manipulation, visualization, and predictive modeling. Ke
 
 | Project File                                      | Description                                                                                   |  
 |--------------------------------------------------|-----------------------------------------------------------------------------------------------|  
-| **Designing_Inventory_Management_System_Colab.ipynb** | AI-powered inventory management system utilizing multiple regression, Prophet time series, and Random Forest to optimize demand forecasting and stock levels. |  
+| **Designing Inventory Management System (Python).ipynb** | AI-powered inventory management system utilizing multiple regression, Prophet time series, and Random Forest to optimize demand forecasting and stock levels. |  
 | **Analysing_Customer_Subscriptions_to_Term_Deposits.ipynb** | Predictive modeling to analyze customer subscriptions for term deposits using train and test datasets. |  
 | **Credit Dataset Analysis Project Code File.py** | Analysis of customer credit data to identify risk patterns and visualize trends.              |  
 | **Goodhealth&wellbeingDataset_NLPAnalysis.ipynb** | NLP-based analysis of text data related to health and well-being for insights.                |  
