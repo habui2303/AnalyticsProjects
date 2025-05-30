@@ -1,58 +1,68 @@
-# Grace Bui - Data Analyst Portfolio
-Welcome to my **GitHub Portfolio**!
-I'm passionate about turning data into actionable insights. Here, you'll find a collection of analytics projects I've developed using  **Python**, **R**, **SQL**, **PowerBI** and **Tableau**. These projects reflect my experience in tackling real-world business problems through exploratory data analysis (EDA), predictive modeling, and interactive data visualization.
+# 📊 Grace Bui – Data Analyst Portfolio
 
-Feel free to explore my work—I’m always learning and excited to grow as a data professional!
+Welcome to my **GitHub Portfolio**!
+
+I’m passionate about turning data into actionable insights. My portfolio showcases analytics projects built using **Python**, **R**, **SQL**, **Power BI**, and **Tableau**. These projects reflect my experience in solving real-world business problems through **exploratory data analysis (EDA)**, **predictive modeling**, and **interactive dashboards**.
+
+Feel free to explore my work — I’m always learning and growing as a data professional!
+
 ---
 
-## Developer Portfolio Landing Page Template
+## 🌐 Portfolio Overview
 
-### Introduction
+This site is built using a minimal Jekyll theme hosted via **GitHub Pages**, designed to highlight my data science and analytics work.  
 
-Use this template if you need a quick developer / data science portfolio! Based on a Minimal Jekyll theme for GitHub Pages.
+<img src="images/demo.gif" alt="Portfolio Demo" style="max-width: 100%;"/>
 
-<img src="images/demo.gif?raw=true"/>
+---
 
-### Installation
+## 📁 Contents
 
-See full step by step tutorial [on Medium](https://medium.com/@evanca/set-up-your-portfolio-website-in-less-than-10-minutes-with-github-pages-d0efa8ff56fd).
-___
+- **[📌 Projects Overview](#projects-overview)**  
+  - [🗃️ SQL Projects](#sql-projects)  
+  - [🐍 Python Projects](#python-projects)  
+  - [📊 Power BI Dashboards](#power-bi-dashboards)  
+  - [📈 Tableau Visualizations](#tableau-visualizations)  
+  - [📉 R Projects](#r-projects)  
+- **[⚙️ Setup & Usage](#setup--usage)**  
+- **[📦 Installation Requirements](#installation-requirements)**  
+- **[🤝 Contributing](#contributing)**  
+- **[📬 Contact](#contact)**  
 
-You can use the editor on GitHub to maintain and preview the content for your website in Markdown files.
+---
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## 📌 Projects Overview
 
-### Markdown
+Coming soon: explore full descriptions and visuals of my analytics case studies.  
+Projects cover:
+- Forecasting sales demand using machine learning
+- Segmenting customers with clustering
+- Visualizing marketing campaigns with Tableau
+- Extracting business insights from SQL databases
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+---
 
-```markdown
-Syntax highlighted code block
+## ⚙️ Setup & Usage
 
-# Header 1
-## Header 2
-### Header 3
+If you're cloning this site or want to build your own portfolio using Jekyll + GitHub Pages:
 
-- Bulleted
-- List
+1. Clone the repository.
+2. Install dependencies for [Jekyll](https://jekyllrb.com/).
+3. Run `bundle exec jekyll serve` to preview locally.
 
-1. Numbered
-2. List
+---
 
-**Bold** and _Italic_ and `Code` text
+## 📦 Installation Requirements (for Project Code)
 
-[Link](url) and ![Image](src)
-```
+```bash
+# Python
+pip install pandas numpy matplotlib seaborn scikit-learn prophet
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+# R (via RStudio)
+install.packages(c("dplyr", "ggplot2", "caret", "tidyverse"))
 
-### Roadmap
+# SQL
+Use DBeaver, SSMS, or your preferred SQL IDE
 
-See the [open issues](https://github.com/evanca/machine-learning_optimizing-app-offers-with-starbucks/issues) for a list of proposed features (and known issues).
-___
-
-### References
-
-[1] Jekyll theme "Minimal" for GitHub Pages: https://github.com/pages-themes/minimal (CC0 1.0 Universal License)
-<br>[2] Dummy photo via: https://pixabay.com/photos/man-male-adult-person-caucasian-1209494/ (Pixabay License)
-<br>[3] Dummy thumbnail image created by rawpixel.com: https://www.freepik.com/free-vector/set-elements-infographic_2807573.htm (Standard Freepik License)
+# Power BI / Tableau
+Desktop versions required to view and interact with dashboards
