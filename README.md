@@ -1,21 +1,24 @@
-# Analytics Projects Repository  
+# Grace Bui - Data Analyst Portfolio
+Welcome to my **GitHub Portfolio**!
+I'm passionate about turning data into actionable insights. Here, you'll find a collection of analytics projects I've developed using  **Python**, **R**, **SQL**, **PowerBI** and **Tableau**. These projects reflect my experience in tackling real-world business problems through exploratory data analysis (EDA), predictive modeling, and interactive data visualization.
 
-Welcome to the **Analytics Projects Repository**! This repository showcases diverse data analytics projects developed using **Python**, **R**, **SQL**, and **Tableau**. These projects focus on real-world data challenges, featuring tasks such as exploratory data analysis (EDA), predictive modeling, and data visualization.
-
+Feel free to explore my work—I’m always learning and excited to grow as a data professional!
 ---
 
 ## Table of Contents  
 - [Introduction](#introduction)  
 - [Projects Overview](#projects-overview)  
-  - [Python Projects](#python-projects)  
-  - [R Projects](#r-projects)  
   - [SQL Projects](#sql-projects)  
-  - [Tableau Dashboard Projects](#tableau-dashboard-projects)  
+  - [Python Projects](#python-projects)  
+  - [Power BI Dashboards](#power-bi-dashboards)  
+  - [Tableau Visualizations](#tableau-visualizations)  
+  - [R Projects](#r-projects)  
 - [Explore Projects](#explore-projects)  
 - [Set Up Environment](#set-up-environment)  
 - [Installation and Requirements](#installation-and-requirements)  
 - [Contributing](#contributing)  
-- [Contact](#contact)  
+- [Contact](#contact)
+
 
 ---
 
